@@ -2,7 +2,8 @@
 
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from scipy.sparse import hstack
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import xgboost as xgb
@@ -13,14 +14,11 @@ d = pd.read_csv("../data/airline100K.csv")
 
 vars_cat = ["Month","DayofMonth","DayOfWeek","UniqueCarrier", "Origin", "Dest"]
 vars_num = ["DepTime","Distance"]
-def my_get_dummies(d, col):
-    dd = pd.get_dummies(d.ix[:, col])
-    dd.columns = [col + "_%s" % c for c in dd.columns]
-    return(dd)
-    
-X_cat = pd.concat([my_get_dummies(d, col) for col in vars_cat], axis = 1)
-X = pd.concat([X_cat, d.ix[:,vars_num]], axis = 1)    
-## TODO: training very slow, needs sparse representation!
+for col in vars_cat:
+  d.ix[:,col] = LabelEncoder().fit_transform(d.ix[:,col])
+  
+X_cat = OneHotEncoder().fit_transform(d.ix[:,vars_cat])
+X = hstack((X_cat, d.ix[:,vars_num]))
       
 y = np.where(d[["dep_delayed_15min"]]=="Y",1,0)[:,0]
 
