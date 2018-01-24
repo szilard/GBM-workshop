@@ -1,0 +1,21 @@
+
+## build image
+
+docker build -t rgbm .
+
+
+
+## run 1 container
+
+docker run -d -p 8787:8787 -e PASSWORD=<password>  rgbm
+
+
+
+## or run multiple (e.g. 100) containers with allocation/limits on CPU cores 
+
+Rscript start-rstudio-dockers.R
+
+## kill them all
+docker rm -f $(docker ps -aq)
+
+
