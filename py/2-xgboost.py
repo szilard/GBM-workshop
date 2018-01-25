@@ -15,12 +15,12 @@ d = pd.read_csv("../data/airline100K.csv")
 vars_cat = ["Month","DayofMonth","DayOfWeek","UniqueCarrier", "Origin", "Dest"]
 vars_num = ["DepTime","Distance"]
 for col in vars_cat:
-  d.ix[:,col] = LabelEncoder().fit_transform(d.ix[:,col])
+  d[col] = LabelEncoder().fit_transform(d[col])
   
-X_cat = OneHotEncoder().fit_transform(d.ix[:,vars_cat])
-X = hstack((X_cat, d.ix[:,vars_num]))
+X_cat = OneHotEncoder().fit_transform(d[vars_cat])
+X = hstack((X_cat, d[vars_num]))
       
-y = np.where(d[["dep_delayed_15min"]]=="Y",1,0)[:,0]
+y = np.where(d["dep_delayed_15min"]=="Y",1,0)
 
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=123)
