@@ -2,9 +2,9 @@
 
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from scipy.sparse import hstack
-from sklearn.model_selection import train_test_split
+from sklearn import preprocessing 
+from scipy import sparse
+from sklearn import model_selection 
 from sklearn import metrics
 import xgboost as xgb
 
@@ -14,15 +14,15 @@ d = pd.read_csv("../data/airline100K.csv")
 vars_cat = ["Month","DayofMonth","DayOfWeek","UniqueCarrier", "Origin", "Dest"]
 vars_num = ["DepTime","Distance"]
 for col in vars_cat:
-  d[col] = LabelEncoder().fit_transform(d[col])
+  d[col] = preprocessing.LabelEncoder().fit_transform(d[col])
   
-X_cat = OneHotEncoder().fit_transform(d[vars_cat])     # sparse mx   (less RAM, but also XGB runs 30x faster)
-X = hstack((X_cat, d[vars_num]))                       # sparse mx
+X_cat = preprocessing.OneHotEncoder().fit_transform(d[vars_cat])     # sparse mx   (less RAM, but also XGB runs 30x faster)
+X = sparse.hstack((X_cat, d[vars_num]))                       # sparse mx
       
 y = np.where(d["dep_delayed_15min"]=="Y",1,0)          # numpy array
 
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=123)
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.1, random_state=123)
 
 
 ## TRAIN (sklearn API)
@@ -34,7 +34,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_
 ## ALT-TRAIN: (orig xgboost API)
 d_train = xgb.DMatrix(X, label = y)
 param = {'max_depth':10, 'eta':0.1, 'objective':'binary:logistic', 'silent':1}
-%time md = xgb.train(param, d_train, 100)
+%time md = xgb.train(param, d_train, num_boost_round = 100)
 
 
 
