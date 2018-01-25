@@ -1,5 +1,4 @@
 
-
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing 
@@ -7,6 +6,7 @@ from scipy import sparse
 from sklearn import model_selection 
 from sklearn import metrics
 import xgboost as xgb
+import multiprocessing
 
 
 d = pd.read_csv("../data/airline100K.csv")
@@ -25,16 +25,17 @@ y = np.where(d["dep_delayed_15min"]=="Y",1,0)                        # numpy arr
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.1, random_state=123)
 
 
-## TRAIN (sklearn API)
-%time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=-1).fit(X_train, y_train)
+## TRAIN method 1 - sklearn API
+md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=-1)
+%time md.fit(X_train, y_train)
 
-## %time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=-1).fit(X_train.toarray(), y_train)   # slow if not sparse!
+## %time md.fit(X_train.toarray(), y_train)   # slow if not sparse!
 
 
-## ALT-TRAIN: (orig xgboost API)
-d_train = xgb.DMatrix(X, label = y)
-param = {'max_depth':10, 'eta':0.1, 'objective':'binary:logistic', 'silent':1}
-%time md = xgb.train(param, d_train, num_boost_round = 100)
+## TRAIN method 2 - orig xgboost API
+dxgb_train = xgb.DMatrix(X_train, label = y_train)
+param = {'max_depth':10, 'eta':0.1, 'objective':'binary:logistic', 'silent':1, 'nthread': multiprocessing.cpu_count()}
+%time md = xgb.train(param, dxgb_train, num_boost_round = 100)
 
 
 
