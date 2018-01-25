@@ -7,7 +7,6 @@ from scipy.sparse import hstack
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import xgboost as xgb
-import multiprocessing
 
 
 d = pd.read_csv("../data/airline100K.csv")
@@ -26,13 +25,17 @@ y = np.where(d["dep_delayed_15min"]=="Y",1,0)          # numpy array
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=123)
 
 
-n_c = multiprocessing.cpu_count()
-n_c
+## TRAIN (sklearn API)
+%time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=-1).fit(X_train, y_train)
 
-## TRAIN
-%time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=n_c).fit(X_train, y_train)
+## %time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=-1).fit(X_train.toarray(), y_train)   # slow if not sparse!
 
-## %time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=n_c).fit(X_train.toarray(), y_train)   # slow if not sparse!
+
+## ALT-TRAIN: (orig xgboost API)
+d_train = xgb.DMatrix(X, label = y)
+param = {'max_depth':10, 'eta':0.1, 'objective':'binary:logistic', 'silent':1}
+%time md = xgb.train(param, d_train, 100)
+
 
 
 ## SCORE
