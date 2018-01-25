@@ -17,10 +17,10 @@ vars_num = ["DepTime","Distance"]
 for col in vars_cat:
   d[col] = LabelEncoder().fit_transform(d[col])
   
-X_cat = OneHotEncoder().fit_transform(d[vars_cat])
-X = hstack((X_cat, d[vars_num]))
+X_cat = OneHotEncoder().fit_transform(d[vars_cat])     # sparse mx   (less RAM, but also XGB runs 30x faster)
+X = hstack((X_cat, d[vars_num]))                       # sparse mx
       
-y = np.where(d["dep_delayed_15min"]=="Y",1,0)
+y = np.where(d["dep_delayed_15min"]=="Y",1,0)          # numpy array
 
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=123)
@@ -31,6 +31,8 @@ n_c
 
 ## TRAIN
 %time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=n_c).fit(X_train, y_train)
+
+## %time md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=n_c).fit(X_train.toarray(), y_train)   # slow if not sparse!
 
 
 ## SCORE
