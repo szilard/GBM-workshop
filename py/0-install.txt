@@ -4,7 +4,7 @@ sudo apt-get update
 sudo apt-get -y install python2.7 python-pip python-dev ipython
 
 
-sudo pip install -U scikit-learn numpy pandas scipy xgboost
+sudo pip install -U scikit-learn numpy pandas scipy xgboost lightgbm
 
 
 ## or alternatively use anaconda:

@@ -1,0 +1,92 @@
+
+m5.xlarge - 4 cores
+
+
+> system.time({
++   md <- gbm(dep_delayed_15min ~ ., data = d_train, distribution = "bernoulli",
++           n.trees = 100, interaction.depth = 10, shrinkage = 0.1)
++ })
+   user  system elapsed
+  14.02    0.04   14.06     <<<< 1 core 
+   user  system elapsed
+ 13.704   0.012  13.716
+   user  system elapsed
+ 13.396   0.004  13.400
+
+
+
+> system.time({
++   md <- xgb.train(data = dxgb_train, objective = "binary:logistic",
++            nround = 100, max_depth = 10, eta = 0.1)
++ })
+   user  system elapsed
+ 13.864   0.008   3.480
+   user  system elapsed
+ 13.840   0.020   3.551
+   user  system elapsed
+ 13.900   0.012   3.482
+
+
+  
+> system.time({
++   md <- h2o.gbm(x = 1:(ncol(dx)-1), y = "dep_delayed_15min", training_frame = dx_train, distribution = "bernoulli",
++                 ntrees = 100, max_depth = 10, learn_rate = 0.1,
++                 nbins = 100, seed = 123)
++ })
+   user  system elapsed
+  0.368   0.000  16.066
+   user  system elapsed
+  0.316   0.008  13.551
+   user  system elapsed
+  0.204   0.008  13.407
+  
+
+
+> system.time({
++   md <- lgb.train(data = dlgb_train, objective = "binary",
++                   nrounds = 100, num_leaves = 512, learning_rate = 0.1)
++ })
+   user  system elapsed
+  7.824   0.184   2.017
+   user  system elapsed
+  7.148   0.152   1.936
+   user  system elapsed
+  6.964   0.108   1.772
+
+
+
+
+
+In [17]: md = ensemble.GradientBoostingClassifier(n_estimators = 100, learning_rate = 0.1, max_depth = 10)
+Wall time: 53.1 s
+Wall time: 53 s           <<<< 1 core
+Wall time: 53 s
+
+In [28]: %time md.fit(X_train.toarray(), y_train)
+Wall time: 23min 42s
+
+
+
+In [19]: md = xgb.XGBClassifier(max_depth=10, n_estimators=100, learning_rate=0.1, n_jobs=-1)
+Wall time: 3.51 s
+Wall time: 3.43 s
+Wall time: 3.38 s
+
+In [22]: %time md = xgb.train(param, dxgb_train, num_boost_round = 100)
+Wall time: 3.09 s
+Wall time: 3.08 s
+Wall time: 3.04 s
+
+
+
+In [18]: md = lgb.LGBMClassifier(num_leaves=512, learning_rate=0.1, n_estimators=100)
+Wall time: 2.24 s
+Wall time: 2.17 s
+Wall time: 2.16 s
+
+In [21]: %time md = lgb.train(param, dlgb_train, num_boost_round = 100)
+Wall time: 2.18 s
+Wall time: 2.07 s
+Wall time: 2.12 s
+
+
