@@ -17,9 +17,9 @@ for col in vars_cat:
   d[col] = preprocessing.LabelEncoder().fit_transform(d[col])
   
 X_cat = preprocessing.OneHotEncoder().fit_transform(d[vars_cat])     # sparse mx   (less RAM, but also XGB runs 30x faster)
-X = sparse.hstack((X_cat, d[vars_num]))                       # sparse mx
+X = sparse.hstack((X_cat, d[vars_num]))                              # sparse mx
       
-y = np.where(d["dep_delayed_15min"]=="Y",1,0)          # numpy array
+y = np.where(d["dep_delayed_15min"]=="Y",1,0)                        # numpy array
 
 
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.1, random_state=123)
