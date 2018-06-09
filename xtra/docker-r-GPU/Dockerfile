@@ -13,7 +13,7 @@ RUN apt-get install -y git wget libcurl4-openssl-dev cmake
 
 ENV MAKE="make -j$(nproc)"
 
-RUN R -e 'install.packages(c("ROCR","data.table","R6"), repos = c(CRAN = "https://cran.rstudio.com/"))'
+RUN R -e 'install.packages(c("ROCR","data.table","R6","jsonlite"), repos = c(CRAN = "https://cran.rstudio.com/"))'
 
 
 RUN git clone --recursive https://github.com/dmlc/xgboost && \
@@ -35,4 +35,6 @@ RUN git clone --recursive https://github.com/Microsoft/LightGBM && \
 
 
 RUN  apt-get clean && rm -rf /var/lib/apt/lists/*
+
+CMD ["R","--vanilla"]
 
