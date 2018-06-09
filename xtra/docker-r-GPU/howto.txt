@@ -1,0 +1,13 @@
+
+## build image
+
+docker build -t rgbmgpu .
+
+
+
+## run 1 container
+
+docker run -d -p 8787:8787 -e PASSWORD=<password>  rgbmgpu
+
+
+
