@@ -26,10 +26,14 @@ dxgb_train <- xgb.DMatrix(data = X_train, label = ifelse(d_train$dep_delayed_15m
 
 
 
+n_trees <- 100
+#n_trees <- 1000
+
+
 ## TRAIN CPU
 system.time({
   md <- xgb.train(data = dxgb_train, objective = "binary:logistic", 
-           nround = 1000, max_depth = 10, eta = 0.1)
+           nround = n_trees, max_depth = 10, eta = 0.1)
 })
 
 ## SCORE / AUC
@@ -38,11 +42,10 @@ rocr_pred <- prediction(phat, d_test$dep_delayed_15min)
 performance(rocr_pred, "auc")@y.values[[1]]
 
 
-
 ## TRAIN GPU
 system.time({
   md <- xgb.train(data = dxgb_train, objective = "binary:logistic", 
-           nround = 1000, max_depth = 10, eta = 0.1, 
+           nround = n_trees, max_depth = 10, eta = 0.1, 
            tree_method = "gpu_hist")
 })
 
