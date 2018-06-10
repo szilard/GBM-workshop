@@ -16,7 +16,7 @@
 
 [Docker R GPU](https://github.com/szilard/GBM-workshop/tree/master/xtra/docker-r-GPU)
 
-[Install R](https://github.com/szilard/GBM-workshop/blob/master/R/0-install.R)
+[Install R (Linux CPU)](https://github.com/szilard/GBM-workshop/blob/master/R/0-install.R)
 
-[Install Python](https://github.com/szilard/GBM-workshop/blob/master/py/0-install.txt)
+[Install Python (Linux CPU)](https://github.com/szilard/GBM-workshop/blob/master/py/0-install.txt)
 
