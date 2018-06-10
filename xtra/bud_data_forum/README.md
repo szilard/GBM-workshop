@@ -1,5 +1,5 @@
 
-[Budapest Data Forum](http://budapestdata.hu/2018/hu/)
+[Budapest Data Forum](http://budapestdata.hu/2018/en/)
 
 [GBM Workshop](http://budapestdata.hu/2018/hu/program/workshopok/better-than-deep-learning-gradient-boosting-machines-gbm-pafka-szilard-epoch-usa/)
 
