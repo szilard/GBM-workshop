@@ -9,9 +9,14 @@
 
 [R/Python code+data](https://github.com/szilard/GBM-workshop/) (this github repo)
 
+
+### Install
+
 [Docker R CPU](https://github.com/szilard/GBM-workshop/tree/master/xtra/docker-r)
 
 [Docker R GPU](https://github.com/szilard/GBM-workshop/tree/master/xtra/docker-r-GPU)
 
+[Install R](https://github.com/szilard/GBM-workshop/blob/master/R/0-install.R)
 
+[Install Python](https://github.com/szilard/GBM-workshop/blob/master/py/0-install.txt)
 

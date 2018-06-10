@@ -19,6 +19,6 @@ devtools::install_github("Microsoft/LightGBM", subdir = "R-package")       ## ne
 
 
 ## xgboost and lightgbm also have GPU versions
-## install: https://github.com/szilard/GBM-perf/blob/master/install.txt
+## install: https://github.com/szilard/GBM-perf/blob/master/v1-keep-old-before_docker/install.txt#L24
 ## performance: https://github.com/szilard/GBM-perf#gbm-performance
 
