@@ -1,0 +1,17 @@
+
+## build image
+
+docker build -t rgbm .
+
+
+
+
+## run multiple (e.g. 100) containers with allocation/limits on CPU cores 
+
+Rscript start-rstudio-dockers.R
+
+
+## kill them all
+docker rm -f $(docker ps -aq)
+
+
