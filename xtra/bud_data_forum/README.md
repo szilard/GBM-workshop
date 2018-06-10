@@ -7,7 +7,7 @@
 
 [Slides demo](https://drive.google.com/open?id=1rHEQJ4E-rBxwdnVcxI00Ivjf6Ij84SQXGkmwKBxEOwU)
 
-[Github repo (R/Python code+data)](https://github.com/szilard/GBM-workshop/)
+[R/Python code+data](https://github.com/szilard/GBM-workshop/) (this github repo)
 
 [Docker R CPU](https://github.com/szilard/GBM-workshop/tree/master/xtra/docker-r)
 
